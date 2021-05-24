@@ -1,3 +1,71 @@
 * {
     box-sizing: border-box;
 }
+
+:root {
+    --body-bg: #fefefe;
+    --text-color: #1f1f1f;
+    --h1-color: red;
+    --default-radius: 3px;
+    --button-bg-color: #ddd;
+    --border-color: #1f1f1f;
+    --font: 'Roboto', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --body-bg: #1f1f1f;
+        --text-color: #fefefe;
+        --border-color: #ddd;
+    }
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    background-color: var(--body-bg);
+    color: var(--text-color);
+    font-family: var(--font);
+}
+
+.container {
+    display: grid;
+    grid-template: auto 1fr / auto;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+
+.header .header-right {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Buttons */
+.custom-input {
+    color: var(--text-color);
+    background-color: var(--body-bg);
+    padding: 0.5em 0.75em;
+    border: 2px solid var(--border-color);
+    border-radius: var(--default-radius);
+    margin: 0.5em;
+    font-family: var(--font);
+    height: 32px;
+}
+
+.sorting-options {
+    display: flex;
+    flex-direction: row;
+}
+
+.sorting-options .custom-input {
+    flex: 1 1 0;
+}
+
+.custom-input:hover, .custom-input:active {
+    box-shadow: 1px 1px 10px #777;
+}

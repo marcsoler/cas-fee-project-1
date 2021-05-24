@@ -1,15 +1,46 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Note App</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js" integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU=" crossorigin="anonymous" defer></script>
-  <script src="scripts/index.js" type="module"></script>
-
-  <link rel="stylesheet" href="styles/index.css">
+    <meta charset="UTF-8">
+    <title>Note App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"
+            integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU=" crossorigin="anonymous" defer></script>
+    <script src="scripts/index.js" type="module"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/index.css">
 </head>
 <body>
-<h1>Note App</h1>
+
+<div class="container">
+
+    <h1>ToDo App</h1>
+
+    <header class="header">
+        <div class="header-left">
+            <button type="button" class="custom-input" id="create">Create a new Note</button>
+            <div class="sorting-options">
+                <button type="button" class="custom-input">By finish Date</button>
+                <button type="button" class="custom-input">By created Date</button>
+                <button type="button" class="custom-input">By importance</button>
+            </div>
+        </div>
+        <div class="header-right">
+            <select name="mode" id="mode" class="custom-input">
+                <option hidden>BlackWhite-Style</option>
+                <option value="dark">Dark</option>
+                <option value="light">Light</option>
+            </select>
+            <button type="button" class="custom-input" id="show-finished">Show finished</button>
+        </div>
+    </header>
+    <main class="content">
+
+    </main>
+
+
+</div>
+
 
 </body>
 </html>
