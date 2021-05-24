@@ -12,7 +12,7 @@
     --font: 'Roboto', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) { /* “flash of incorrect theme” (FOIT) for default theme */
     :root {
         --body-bg: #1f1f1f;
         --text-color: #fefefe;
