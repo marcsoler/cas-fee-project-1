@@ -2,7 +2,8 @@
     box-sizing: border-box;
 }
 
-:root, body.light {
+:root,
+body.light {
     --body-bg: #fefefe;
     --text-color: #1f1f1f;
     --h1-color: red;
