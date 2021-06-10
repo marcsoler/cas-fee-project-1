@@ -42,5 +42,46 @@
 </div>
 
 
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <button id="close-popup">X</button>
+        <form action="#">
+
+            <div class="input-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title">
+            </div>
+
+            <div class="input-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+
+            <div class="input-group">
+                <label for="importance">Importance</label>
+                <select name="importance" id="importance">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="duedate">Duedate</label>
+                <input id="duedate" type="date" name="duedate">
+            </div>
+
+
+            <button type="submit">Save</button>
+            <button type="reset">Reset</button>
+
+        </form>
+
+
+    </div>
+</div>
+
 </body>
 </html>

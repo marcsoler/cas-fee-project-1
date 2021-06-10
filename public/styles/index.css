@@ -11,15 +11,18 @@ body.light {
     --button-bg-color: #ddd;
     --border-color: #1f1f1f;
     --font: 'Roboto', sans-serif;
+    --container-max-width: 1200px;
 }
 
-@media (prefers-color-scheme: dark) { /* “flash of incorrect theme” (FOIT) for default theme */
+@media (prefers-color-scheme: dark) {
+    /* “flash of incorrect theme” (FOIT) for default theme */
     :root {
         --body-bg: #1f1f1f;
         --text-color: #fefefe;
         --border-color: #ddd;
     }
 }
+
 body.dark {
     --body-bg: #1f1f1f;
     --text-color: #fefefe;
@@ -33,12 +36,15 @@ body {
     color: var(--text-color);
     font-family: var(--font);
 }
+body.has-popup {
+    overflow: hidden;
+}
 
 .container {
     display: grid;
     grid-template: auto 1fr / auto;
     width: 100%;
-    max-width: 1200px;
+    max-width: var(--container-max-width);
 }
 
 .header {
@@ -74,4 +80,46 @@ body {
 
 .custom-input:hover, .custom-input:active {
     box-shadow: 1px 1px 10px #777;
+}
+
+/* Popup */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.popup.is-open {
+    display: grid;
+    grid-template: auto / auto;
+}
+
+.popup-content {
+    background-color: var(--body-bg);
+    align-self: center;
+    justify-self: center;
+    width: 100%;
+    max-width: calc(var(--container-max-width) - 100px);
+    padding: 1rem;
+    animation-name: fadeIn;
+    animation-duration: 0.5s;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
