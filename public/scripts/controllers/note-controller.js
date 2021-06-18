@@ -6,6 +6,7 @@ class NoteController {
         this.createBtn = document.querySelector('#create');
         this.popup = document.querySelector('#popup');
         this.closePopupBtn = document.querySelector('#close-popup');
+        this.noteForm = document.querySelector('#note-form');
         this.notes = new NoteService();
     }
 
@@ -36,6 +37,13 @@ class NoteController {
         this.modeSelector.addEventListener('input', () => this.toggleMode());
         this.createBtn.addEventListener('click', () => this.openPopup());
         this.closePopupBtn.addEventListener('click', () => this.closePopup());
+        this.noteForm.addEventListener('submit', (event) => this.submitNote(event));
+    }
+
+    submitNote(event) {
+        // Todo
+        event.preventDefault();
+        console.log('submitNote()... todo!');
     }
 
     renderNotes() {
@@ -44,6 +52,9 @@ class NoteController {
         //    console.log(note);
         // }
     }
+
+
+
 
     init() {
         this.toggleMode();

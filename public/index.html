@@ -9,13 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/index.css">
+    <!-- favicon: -->
+    <link href="data:image/x-icon;base64,AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA////AAycFgBcW1oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAzMzMzMzMAADMzMzMzMwAAMxEhEREzAAAzEiIRETMAADMSIiERMwAAMyIiIhEzAAAzIiESITMAADMSEREiMwAAMxERERIjAAAzERERESIAADMzMzMzMiIAMzMzMzMzIgAAAAAAAAAAAAAAAAAAAAD//wAA//8AAMADAADAAwAAwAMAAMADAADAAwAAwAMAAMADAADAAwAAwAMAAMADAADAAAAAwAAAAP//AAD//wAA" rel="icon" type="image/x-icon" />
 </head>
 <body>
 
 <div class="container">
-
-    <h1>ToDo App</h1>
-
     <header class="header">
         <div class="header-left">
             <button type="button" class="custom-input" id="create">Create a new Note</button>
@@ -34,8 +33,22 @@
             <button type="button" class="custom-input" id="show-finished">Show finished</button>
         </div>
     </header>
-    <main class="content">
 
+
+    <main class="container">
+        <h1>Tasks</h1>
+        <ul class="tasks">
+            <li class="task todo">
+                <h2>Finish the HTML part</h2>
+                <p>Lorem ipsum dolo irgendwas ...</p>
+                <p>Importance: x | Due: Tomorrow</p>
+            </li>
+
+            <li class="task done">
+                <h2>Work on the frontend controller</h2>
+                <p>Importance: x | Due: Tomorrow | <a href="#">Description</a></p>
+            </li>
+        </ul>
     </main>
 
 
@@ -45,7 +58,7 @@
 <div class="popup" id="popup">
     <div class="popup-content">
         <button id="close-popup">X</button>
-        <form action="#">
+        <form action="#" method="post" id="note-form">
 
             <div class="input-group">
                 <label for="title">Title</label>
