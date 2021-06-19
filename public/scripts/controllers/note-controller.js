@@ -1,4 +1,4 @@
-import NoteService from '../services/note-service.js';
+import {noteService} from '../services/note-service.js';
 
 class NoteController {
     constructor() {
@@ -7,7 +7,6 @@ class NoteController {
         this.popup = document.querySelector('#popup');
         this.closePopupBtn = document.querySelector('#close-popup');
         this.noteForm = document.querySelector('#note-form');
-        this.notes = new NoteService();
     }
 
     toggleMode() {
@@ -41,9 +40,9 @@ class NoteController {
     }
 
     submitNote(event) {
-        // Todo
         event.preventDefault();
-        console.log('submitNote()... todo!');
+        const formData = this.noteForm.elements;
+        noteService.createNote(formData);
     }
 
     renderNotes() {
@@ -52,9 +51,6 @@ class NoteController {
         //    console.log(note);
         // }
     }
-
-
-
 
     init() {
         this.toggleMode();

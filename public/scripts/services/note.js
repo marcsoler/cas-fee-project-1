@@ -7,4 +7,10 @@ export default class Note {
         this.created = created;
         this.finished = finished;
     }
+
+    save() {
+        // Todo
+        console.log('todo... saves this instances to the db...');
+        return;
+    }
 }

@@ -4,7 +4,8 @@ const router = express.Router();
 
 //Todo
 
-app.post('/', function (req, res) {
+
+router.post('/', function (req, res) {
     res.send('Test');
 });
 
