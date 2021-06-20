@@ -39,10 +39,10 @@ class NoteController {
         this.noteForm.addEventListener('submit', (event) => this.submitNote(event));
     }
 
-    submitNote(event) {
+    async submitNote(event) {
         event.preventDefault();
         const formData = this.noteForm.elements;
-        noteService.createNote(formData);
+        await noteService.createNote(formData);
     }
 
     renderNotes() {

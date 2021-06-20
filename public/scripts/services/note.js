@@ -1,3 +1,5 @@
+import {httpService} from './http-service.js';
+
 export default class Note {
     constructor(title, description, importance, duedate, created, finished = false) {
         this.title = title;
@@ -8,9 +10,15 @@ export default class Note {
         this.finished = finished;
     }
 
-    save() {
-        // Todo
-        console.log('todo... saves this instances to the db...');
-        return;
+    async save() {
+        return await httpService.ajax('POST', '/', {
+            title: this.title,
+            description: this.description,
+            importance: this.importance,
+            duedate: this.duedate,
+            created: this.created,
+            finished: false,
+
+        });
     }
 }

@@ -7,10 +7,8 @@ class NoteService {
 
     createNote(data) {
         const created = new Date().toISOString().split('T')[0];
-        console.log('Created', created);
-        console.log('Due', data.duedate.value);
-        const note = new Note(data.title.value, data.description.value, data.importance.value, data.duedate.value, new Date(), false);
-        // note.save();
+        const note = new Note(data.title.value, data.description.value, data.importance.value, data.duedate.value, created, false);
+        note.save();
     }
 }
 

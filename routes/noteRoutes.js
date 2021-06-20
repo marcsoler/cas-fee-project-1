@@ -1,12 +1,10 @@
 import express from 'express';
+import {notesController} from '../controller/notesController.js';
 
 const router = express.Router();
 
-//Todo
+// Todo
 
-
-router.post('/', function (req, res) {
-    res.send('Test');
-});
+router.post('/', notesController.create);
 
 export const noteRoutes = router;
