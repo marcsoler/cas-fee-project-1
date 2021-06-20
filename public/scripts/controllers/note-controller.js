@@ -6,7 +6,8 @@ class NoteController {
         this.createBtn = document.querySelector('#create');
         this.popup = document.querySelector('#popup');
         this.closePopupBtn = document.querySelector('#close-popup');
-        this.notesList = document.querySelector('#notes-list');
+        this.filterButtons = document.querySelectorAll('.filter-button');
+        this.notesContainer = document.querySelector('#notes-container');
         this.noteForm = document.querySelector('#note-form');
         this.noteTemplate = document.querySelector('#note-template');
     }
@@ -51,7 +52,7 @@ class NoteController {
 
     async renderNotes() {
         const noteRenderer = Handlebars.compile(this.noteTemplate.innerHTML);
-        this.notesList.innerHTML = noteRenderer(await noteService.getNotes());
+        this.notesContainer.innerHTML = noteRenderer(await noteService.getNotes());
     }
 
     init() {

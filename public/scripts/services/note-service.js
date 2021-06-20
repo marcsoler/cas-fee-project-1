@@ -1,5 +1,5 @@
 import Note from './note.js';
-import {httpService} from './http-service.js';
+import HttpService from './http-service.js';
 
 class NoteService {
     constructor() {
@@ -7,13 +7,16 @@ class NoteService {
     }
 
     createNote(data) {
-        const created = new Date().toISOString().split('T')[0];
-        const note = new Note(data.title.value, data.description.value, data.importance.value, data.duedate.value, created, false);
+        const note = new Note(data.title.value, data.description.value, data.importance.value, data.duedate.value, false);
         note.save();
     }
 
     async getNotes() {
-        return await httpService.ajax('GET', '/notes', undefined);
+//        const notes = await httpService.ajax('GET', '/notes', undefined);
+//        for (const note of notes) {
+//            this.notes.push(new Note(note.title, note.description, note.importance, note.duedate, note.created, note.finished));
+//        }
+        return await HttpService.ajax('GET', '/notes', undefined);
     }
 }
 

@@ -5,12 +5,16 @@
     <title>Note App</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"
             integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+            integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts/controllers/note-controller.js" type="module" defer></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/index.css">
     <!-- favicon: -->
-    <link href="data:image/x-icon;base64,AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA////AAycFgBcW1oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAzMzMzMzMAADMzMzMzMwAAMxEhEREzAAAzEiIRETMAADMSIiERMwAAMyIiIhEzAAAzIiESITMAADMSEREiMwAAMxERERIjAAAzERERESIAADMzMzMzMiIAMzMzMzMzIgAAAAAAAAAAAAAAAAAAAAD//wAA//8AAMADAADAAwAAwAMAAMADAADAAwAAwAMAAMADAADAAwAAwAMAAMADAADAAAAAwAAAAP//AAD//wAA" rel="icon" type="image/x-icon" />
+    <link href="data:image/x-icon;base64,AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA////AAycFgBcW1oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAzMzMzMzMAADMzMzMzMwAAMxEhEREzAAAzEiIRETMAADMSIiERMwAAMyIiIhEzAAAzIiESITMAADMSEREiMwAAMxERERIjAAAzERERESIAADMzMzMzMiIAMzMzMzMzIgAAAAAAAAAAAAAAAAAAAAD//wAA//8AAMADAADAAwAAwAMAAMADAADAAwAAwAMAAMADAADAAwAAwAMAAMADAADAAAAAwAAAAP//AAD//wAA"
+          rel="icon" type="image/x-icon"/>
 </head>
 <body>
 
@@ -19,9 +23,9 @@
         <div class="header-left">
             <button type="button" class="custom-input" id="create">Create a new Note</button>
             <div class="sorting-options">
-                <button type="button" class="custom-input" id="sort-by-finish">By finish Date</button>
-                <button type="button" class="custom-input" id="sort-by-created">By created Date</button>
-                <button type="button" class="custom-input" id="sort-by-importance">By importance</button>
+                <button type="button" class="custom-input filter-button" data-sort="finish">By finish Date</button>
+                <button type="button" class="custom-input filter-button" data-sort="created">By created Date</button>
+                <button type="button" class="custom-input filter-button" data-sort="importance">By importance</button>
             </div>
         </div>
         <div class="header-right">
@@ -37,9 +41,7 @@
 
     <main class="container">
         <h1>Tasks</h1>
-        <ul class="tasks" id="notes-list">
-
-        </ul>
+        <div id="notes-container"></div>
     </main>
 
 
@@ -88,13 +90,19 @@
 </div>
 
 <script id="note-template" type="text/x-handlebars-template">
-    {{#each this}}
-    <li class="task todo">
-        <h2>{{ title }}</h2>
-        <p>{{ description }}</p>
-        <p>Importance: x | Due: Tomorrow</p>
-    </li>
-    {{/each}}
+    <ul class="tasks">
+        {{#if this }}
+            {{#each this}}
+                <li class="task todo" data-note="{{ id }}">
+                    <h2>{{ title }}</h2>
+                    <p>{{ description }}</p>
+                    <p>Importance: {{ importance }} | Due: {{ duedate }} | Created: {{ created.fo }}</p>
+                </li>
+            {{/each}}
+        {{else }}
+            <p>No notes!</p>
+        {{/if}}
+    </ul>
 </script>
 
 </body>

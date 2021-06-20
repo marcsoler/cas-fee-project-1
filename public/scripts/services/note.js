@@ -1,24 +1,23 @@
-import {httpService} from './http-service.js';
+import HttpService from './http-service.js';
 
 export default class Note {
-    constructor(title, description, importance, duedate, created, finished = false) {
+    constructor(title, description, importance, duedate, finished = false) {
         this.title = title;
         this.description = description;
         this.importance = importance;
         this.duedate = duedate;
-        this.created = created;
+        this.created = new Date();
         this.finished = finished;
     }
 
     async save() {
-        return await httpService.ajax('POST', '/', {
+        return await HttpService.ajax('POST', '/', {
             title: this.title,
             description: this.description,
             importance: this.importance,
             duedate: this.duedate,
             created: this.created,
             finished: false,
-
         });
     }
 }

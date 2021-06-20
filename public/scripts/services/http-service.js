@@ -1,5 +1,5 @@
-class HttpService {
-    ajax(method, url, data, headers) {
+export default class HttpService {
+    static ajax(method, url, data, headers) {
         const fetchHeaders = new Headers({'content-type': 'application/json', ...(headers || {})});
         return fetch(url, {
             method,
@@ -8,5 +8,3 @@ class HttpService {
         }).then((x) => x.json());
     }
 }
-
-export const httpService = new HttpService();

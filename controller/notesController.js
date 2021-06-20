@@ -2,7 +2,7 @@ import {noteStore} from '../services/noteStore.js';
 
 export class NotesController {
 
-    create = async (req, res) => {
+    createNote = async (req, res) => {
         res.json(await noteStore.add(req.body));
     }
 
