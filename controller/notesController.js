@@ -6,6 +6,10 @@ export class NotesController {
         res.json(await noteStore.add(req.body));
     }
 
+    getNotes = async (req, res) => {
+        res.json(await noteStore.all() || []);
+    }
+
 }
 
 export const notesController = new NotesController();

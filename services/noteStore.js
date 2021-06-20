@@ -13,6 +13,10 @@ export class NoteStore {
         const note = new Note(data.title, data.description, data.importance, data.duedate, data.created, false);
         return await this.db.insert(note);
     }
+
+    async all() {
+        return await this.db.cfind().exec();
+    }
 }
 
 export const noteStore = new NoteStore();

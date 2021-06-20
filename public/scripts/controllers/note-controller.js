@@ -6,7 +6,9 @@ class NoteController {
         this.createBtn = document.querySelector('#create');
         this.popup = document.querySelector('#popup');
         this.closePopupBtn = document.querySelector('#close-popup');
+        this.notesList = document.querySelector('#notes-list');
         this.noteForm = document.querySelector('#note-form');
+        this.noteTemplate = document.querySelector('#note-template');
     }
 
     toggleMode() {
@@ -43,13 +45,13 @@ class NoteController {
         event.preventDefault();
         const formData = this.noteForm.elements;
         await noteService.createNote(formData);
+        this.closePopup();
+        await this.renderNotes();
     }
 
-    renderNotes() {
-        // Todo
-        // for (const note of this.notes.all) {
-        //    console.log(note);
-        // }
+    async renderNotes() {
+        const noteRenderer = Handlebars.compile(this.noteTemplate.innerHTML);
+        this.notesList.innerHTML = noteRenderer(await noteService.getNotes());
     }
 
     init() {

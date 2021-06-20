@@ -37,17 +37,8 @@
 
     <main class="container">
         <h1>Tasks</h1>
-        <ul class="tasks">
-            <li class="task todo">
-                <h2>Finish the HTML part</h2>
-                <p>Lorem ipsum dolo irgendwas ...</p>
-                <p>Importance: x | Due: Tomorrow</p>
-            </li>
+        <ul class="tasks" id="notes-list">
 
-            <li class="task done">
-                <h2>Work on the frontend controller</h2>
-                <p>Importance: x | Due: Tomorrow | <a href="#">Description</a></p>
-            </li>
         </ul>
     </main>
 
@@ -95,6 +86,16 @@
 
     </div>
 </div>
+
+<script id="note-template" type="text/x-handlebars-template">
+    {{#each this}}
+    <li class="task todo">
+        <h2>{{ title }}</h2>
+        <p>{{ description }}</p>
+        <p>Importance: x | Due: Tomorrow</p>
+    </li>
+    {{/each}}
+</script>
 
 </body>
 </html>
