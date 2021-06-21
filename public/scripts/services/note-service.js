@@ -19,12 +19,12 @@ class NoteService {
         return await HttpService.ajax('GET', '/notes', undefined);
     }
 
-    async updateNote(data) {
-        return await HttpService.ajax('POST', `/notes/${data.noteId}`, {
-            title: this.title,
-            description: this.description,
-            importance: this.importance,
-            duedate: this.duedate,
+    async updateNote(id, data) {
+        return await HttpService.ajax('PUT', `/notes/${id}`, {
+            title: data.title.value,
+            description: data.description.value,
+            importance: data.importance.value,
+            duedate: data.duedate.value,
             finished: false,
         });
     }

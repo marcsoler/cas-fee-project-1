@@ -32,6 +32,8 @@ class NoteController {
     }
 
     closePopup() {
+        this.noteForm.reset();
+        this.noteForm.querySelector('#noteId').value = '';
         this.popup.classList.remove('is-open');
     }
 
@@ -45,12 +47,12 @@ class NoteController {
     async submitNote(event) {
         event.preventDefault();
         const formData = this.noteForm.elements;
-        if (formData.noteId) {
-            await noteService.updateNote(formData);
+        if (formData.noteId.value.length > 0) {
+            const noteId = formData.noteId.value;
+            await noteService.updateNote(noteId, formData);
         } else {
            await noteService.createNote(formData);
         }
-
         this.closePopup();
         await this.renderNotes();
     }

@@ -11,7 +11,6 @@ export class NotesController {
     }
 
     getNote = async (req, res) => {
-        console.log(`Get note #${req.params.id}`);
         res.json(await noteStore.get(req.params.id));
     }
 
@@ -20,7 +19,7 @@ export class NotesController {
     }
 
     updateNote = async (req, res) => {
-        res.json(await noteStore.update(req.body));
+        res.json(await noteStore.update(req.params.id, req.body));
     }
 
 

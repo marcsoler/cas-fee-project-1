@@ -28,10 +28,8 @@ export class NoteStore {
         return await this.db.remove({_id: id});
     }
 
-    async update(data) {
-        console.log('will update this soon');
-        // Todo
-        // return await this.db.update({_id: data.noteId}, { $set: { data.title, data.description, data.importance, data.duedate, data.created, false }});
+    async update(id, data) {
+        return await this.db.update({_id: id}, { $set: { title: data.title, description: data.description, duedate: data.duedate, created: data.created, finished: false } });
     }
 }
 
