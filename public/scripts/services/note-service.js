@@ -11,12 +11,26 @@ class NoteService {
         note.save();
     }
 
+    async getNote(id) {
+        return await HttpService.ajax('GET', `/notes/${id}`, undefined);
+    }
+
     async getNotes() {
-//        const notes = await httpService.ajax('GET', '/notes', undefined);
-//        for (const note of notes) {
-//            this.notes.push(new Note(note.title, note.description, note.importance, note.duedate, note.created, note.finished));
-//        }
         return await HttpService.ajax('GET', '/notes', undefined);
+    }
+
+    async updateNote(data) {
+        return await HttpService.ajax('POST', `/notes/${data.noteId}`, {
+            title: this.title,
+            description: this.description,
+            importance: this.importance,
+            duedate: this.duedate,
+            finished: false,
+        });
+    }
+
+    async deleteNote(id) {
+        return await HttpService.ajax('DELETE', `/notes/${id}`, undefined);
     }
 }
 

@@ -45,7 +45,12 @@ class NoteController {
     async submitNote(event) {
         event.preventDefault();
         const formData = this.noteForm.elements;
-        await noteService.createNote(formData);
+        if (formData.noteId) {
+            await noteService.updateNote(formData);
+        } else {
+           await noteService.createNote(formData);
+        }
+
         this.closePopup();
         await this.renderNotes();
     }
@@ -53,6 +58,27 @@ class NoteController {
     async renderNotes() {
         const noteRenderer = Handlebars.compile(this.noteTemplate.innerHTML);
         this.notesContainer.innerHTML = noteRenderer(await noteService.getNotes());
+        document.querySelectorAll('.edit-note').forEach((note) => note.addEventListener('click', (e) => this.editNote(e)));
+        document.querySelectorAll('.delete-note').forEach((note) => note.addEventListener('click', (e) => this.deleteNote(e)));
+    }
+
+    async editNote(event) {
+        const noteId = event.target.closest('li').dataset.note;
+        const note = await noteService.getNote(noteId);
+        this.popup.querySelector('#noteId').value = note._id;
+        this.popup.querySelector('#title').value = note.title;
+        this.popup.querySelector('#description').value = note.description;
+        this.popup.querySelector('#importance').value = note.importance;
+        this.popup.querySelector('#duedate').value = note.duedate;
+        this.openPopup();
+    }
+
+    async deleteNote(event) {
+        if (confirm('Are you sure?')) {
+            const noteId = event.target.closest('li').dataset.note;
+            await noteService.deleteNote(noteId);
+            await this.renderNotes();
+        }
     }
 
     init() {

@@ -53,6 +53,8 @@
         <button id="close-popup">X</button>
         <form action="#" method="post" id="note-form">
 
+            <input type="hidden" name="noteId" id="noteId">
+
             <div class="input-group">
                 <label for="title">Title</label>
                 <input type="text" name="title" id="title" required>
@@ -93,10 +95,10 @@
     <ul class="tasks">
         {{#if this }}
             {{#each this}}
-                <li class="task todo" data-note="{{ id }}">
+                <li class="task todo" data-note="{{ _id }}">
                     <h2>{{ title }}</h2>
                     <p>{{ description }}</p>
-                    <p>Importance: {{ importance }} | Due: {{ duedate }} | Created: {{ created.fo }}</p>
+                    <p>Importance: {{ importance }} | Due: {{ duedate }} | Created: {{ created }} | <a href="#" class="edit-note">Edit</a> | <a href="#" class="delete-note">Delete</a></p>
                 </li>
             {{/each}}
         {{else }}

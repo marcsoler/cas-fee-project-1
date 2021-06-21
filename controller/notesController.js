@@ -6,9 +6,24 @@ export class NotesController {
         res.json(await noteStore.add(req.body));
     }
 
-    getNotes = async (req, res) => {
+    getAllNotes = async (req, res) => {
         res.json(await noteStore.all() || []);
     }
+
+    getNote = async (req, res) => {
+        console.log(`Get note #${req.params.id}`);
+        res.json(await noteStore.get(req.params.id));
+    }
+
+    deleteNote = async (req, res) => {
+        res.json(await noteStore.delete(req.params.id));
+    }
+
+    updateNote = async (req, res) => {
+        res.json(await noteStore.update(req.body));
+    }
+
+
 
 }
 
