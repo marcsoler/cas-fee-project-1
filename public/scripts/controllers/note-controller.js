@@ -42,6 +42,9 @@ class NoteController {
         this.createBtn.addEventListener('click', () => this.openPopup());
         this.closePopupBtn.addEventListener('click', () => this.closePopup());
         this.noteForm.addEventListener('submit', (event) => this.submitNote(event));
+        this.filterButtons.forEach((e) => {
+            e.addEventListener('click', (event) => this.sortNotes(event));
+        });
     }
 
     async submitNote(event) {
@@ -81,6 +84,11 @@ class NoteController {
             await noteService.deleteNote(noteId);
             await this.renderNotes();
         }
+    }
+
+    sortNotes(e) {
+        console.log('sorting by...', e.target.dataset.sortBy);
+        return;
     }
 
     init() {
