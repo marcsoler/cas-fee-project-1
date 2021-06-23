@@ -11,14 +11,23 @@ export default class Note {
         this.finished = finished;
     }
 
+    setId(id) {
+        this.id = id;
+    }
+
     async save() {
-        return await HttpService.ajax('POST', '/', {
+        const data = {
             title: this.title,
             description: this.description,
             importance: this.importance,
             duedate: this.duedate,
             created: this.created,
             finished: false,
-        });
+        };
+        if (this.id) {
+            return await HttpService.ajax('PUT', `/notes/${this.id}`, data);
+        }
+        // No ID set yet... so guess we're creating:
+        return await HttpService.ajax('POST', '/', data);
     }
 }

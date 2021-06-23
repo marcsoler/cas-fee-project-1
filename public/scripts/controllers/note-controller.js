@@ -10,6 +10,7 @@ class NoteController {
         this.notesContainer = document.querySelector('#notes-container');
         this.noteForm = document.querySelector('#note-form');
         this.noteTemplate = document.querySelector('#note-template');
+        this.noteRenderer = Handlebars.compile(this.noteTemplate.innerHTML);
     }
 
     toggleMode() {
@@ -23,17 +24,18 @@ class NoteController {
         const mode = selectedMode === 'default' ? defaultMode : selectedMode;
         document.body.classList.remove('dark', 'light');
         document.body.classList.add(mode);
-        document.body.classList.add('has-popup');
         localStorage.setItem('mode', mode);
     }
 
     openPopup() {
+        document.body.classList.add('has-popup');
         this.popup.classList.add('is-open');
     }
 
     closePopup() {
         this.noteForm.reset();
         this.noteForm.querySelector('#noteId').value = '';
+        document.body.classList.remove('has-popup');
         this.popup.classList.remove('is-open');
     }
 
@@ -50,19 +52,23 @@ class NoteController {
     async submitNote(event) {
         event.preventDefault();
         const formData = this.noteForm.elements;
+        let note;
         if (formData.noteId.value.length > 0) {
             const noteId = formData.noteId.value;
-            await noteService.updateNote(noteId, formData);
+            note = await noteService.updateNote(noteId, formData);
+            console.log('note updated');
         } else {
-           await noteService.createNote(formData);
+            note = await noteService.createNote(formData);
+            console.log('note created');
         }
+        console.log('note:', note);
         this.closePopup();
-        await this.renderNotes();
+        // await this.renderNotes();
     }
 
     async renderNotes() {
-        const noteRenderer = Handlebars.compile(this.noteTemplate.innerHTML);
-        this.notesContainer.innerHTML = noteRenderer(await noteService.getNotes());
+        const notes = await noteService.getNotes();
+        this.notesContainer.innerHTML = this.noteRenderer(notes);
         document.querySelectorAll('.edit-note').forEach((note) => note.addEventListener('click', (e) => this.editNote(e)));
         document.querySelectorAll('.delete-note').forEach((note) => note.addEventListener('click', (e) => this.deleteNote(e)));
     }
@@ -70,8 +76,7 @@ class NoteController {
     async editNote(event) {
         const noteId = event.target.closest('li').dataset.note;
         const note = await noteService.getNote(noteId);
-        console.log(note);
-        this.popup.querySelector('#noteId').value = note._id;
+        this.popup.querySelector('#noteId').value = note.id;
         this.popup.querySelector('#title').value = note.title;
         this.popup.querySelector('#description').value = note.description;
         this.popup.querySelector('#importance').value = note.importance;

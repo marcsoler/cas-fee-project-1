@@ -95,7 +95,7 @@
     <ul class="tasks">
         {{#if this }}
             {{#each this}}
-                <li class="task todo" data-note="{{ _id }}">
+                <li class="task todo" data-note="{{ id }}">
                     <h2>{{ title }}</h2>
                     <p>{{ description }}</p>
                     <p>Importance: {{ importance }} | Due: {{ duedate }} | Created: {{ created }} | <a href="#" class="edit-note">Edit</a> | <a href="#" class="delete-note">Delete</a></p>

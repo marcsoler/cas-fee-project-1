@@ -10,7 +10,7 @@ export class NoteStore {
     }
 
     async add(data) {
-        const note = new Note(data.title, data.description, data.importance, data.duedate, data.created, false);
+        const note = new Note(undefined, data.title, data.description, data.importance, data.duedate, data.created, false);
         return await this.db.insert(note);
     }
 
