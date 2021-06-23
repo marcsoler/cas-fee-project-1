@@ -40,6 +40,7 @@ class NoteService {
     }
 
     async getNotes() {
+        this.notes = [];
         const notes = await HttpService.ajax('GET', '/notes', undefined);
         notes.forEach((note) => {
            this.notes.push(new Note(note._id, note.title, note.description, note.importance, note.duedate, note.finished));

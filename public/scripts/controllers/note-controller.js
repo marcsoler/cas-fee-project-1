@@ -11,6 +11,8 @@ class NoteController {
         this.noteForm = document.querySelector('#note-form');
         this.noteTemplate = document.querySelector('#note-template');
         this.noteRenderer = Handlebars.compile(this.noteTemplate.innerHTML);
+        this.currentSortField = undefined;
+        this.currentSortOrder = undefined;
     }
 
     toggleMode() {
@@ -56,19 +58,20 @@ class NoteController {
         if (formData.noteId.value.length > 0) {
             const noteId = formData.noteId.value;
             note = await noteService.updateNote(noteId, formData);
-            console.log('note updated');
         } else {
             note = await noteService.createNote(formData);
-            console.log('note created');
         }
-        console.log('note:', note);
         this.closePopup();
-        // await this.renderNotes();
+        await this.renderNotes();
     }
 
     async renderNotes() {
-        const notes = await noteService.getNotes();
-        this.notesContainer.innerHTML = this.noteRenderer(notes);
+        this.notes = await noteService.getNotes();
+        if (this.currentSortField && this.currentSortOrder) {
+            // Todo
+            console.log('to sort', this.currentSortField, this.currentSortOrder);
+        }
+        this.notesContainer.innerHTML = this.noteRenderer(this.notes);
         document.querySelectorAll('.edit-note').forEach((note) => note.addEventListener('click', (e) => this.editNote(e)));
         document.querySelectorAll('.delete-note').forEach((note) => note.addEventListener('click', (e) => this.deleteNote(e)));
     }
@@ -93,7 +96,19 @@ class NoteController {
     }
 
     sortNotes(e) {
-        console.log('sorting by...', e.target.dataset.sortBy);
+        this.currentSortField = e.target.dataset.sortBy;
+        switch (this.currentSortOrder) {
+            case 'desc':
+                this.currentSortOrder = 'asc';
+                break;
+            default:
+                this.currentSortOrder = 'desc';
+                break;
+        }
+        this.filterButtons.forEach((button) => {
+            button.classList.remove('arrow-asc', 'arrow-desc');
+        });
+        e.target.classList.add(`arrow-${this.currentSortOrder}`);
     }
 
     init() {

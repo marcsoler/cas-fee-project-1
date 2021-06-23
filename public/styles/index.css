@@ -92,6 +92,21 @@ body.has-popup {
     box-shadow: 1px 1px 10px #777;
 }
 
+.filter-button {
+    position: relative;
+}
+.filter-button:after {
+    position: relative;
+    left: 1rem;
+    content: '';
+}
+.filter-button.arrow-asc:after {
+    content: '\25B2';
+}
+.filter-button.arrow-desc:after {
+    content: '\25BC';
+}
+
 ul.tasks {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
