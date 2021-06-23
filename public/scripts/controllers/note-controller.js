@@ -42,6 +42,9 @@ class NoteController {
         this.createBtn.addEventListener('click', () => this.openPopup());
         this.closePopupBtn.addEventListener('click', () => this.closePopup());
         this.noteForm.addEventListener('submit', (event) => this.submitNote(event));
+        this.filterButtons.forEach((e) => {
+            e.addEventListener('click', (event) => this.sortNotes(event));
+        });
     }
 
     async submitNote(event) {
@@ -67,6 +70,7 @@ class NoteController {
     async editNote(event) {
         const noteId = event.target.closest('li').dataset.note;
         const note = await noteService.getNote(noteId);
+        console.log(note);
         this.popup.querySelector('#noteId').value = note._id;
         this.popup.querySelector('#title').value = note.title;
         this.popup.querySelector('#description').value = note.description;
@@ -81,6 +85,10 @@ class NoteController {
             await noteService.deleteNote(noteId);
             await this.renderNotes();
         }
+    }
+
+    sortNotes(e) {
+        console.log('sorting by...', e.target.dataset.sortBy);
     }
 
     init() {
