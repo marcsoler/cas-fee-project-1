@@ -1,7 +1,8 @@
 import HttpService from './http-service.js';
 
 export default class Note {
-    constructor(title, description, importance, duedate, finished = false) {
+    constructor(id = undefined, title, description, importance, duedate, finished = false) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.importance = importance;
