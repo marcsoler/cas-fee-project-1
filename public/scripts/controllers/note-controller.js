@@ -70,6 +70,7 @@ class NoteController {
     async editNote(event) {
         const noteId = event.target.closest('li').dataset.note;
         const note = await noteService.getNote(noteId);
+        console.log(note);
         this.popup.querySelector('#noteId').value = note._id;
         this.popup.querySelector('#title').value = note.title;
         this.popup.querySelector('#description').value = note.description;
@@ -88,7 +89,6 @@ class NoteController {
 
     sortNotes(e) {
         console.log('sorting by...', e.target.dataset.sortBy);
-        return;
     }
 
     init() {
