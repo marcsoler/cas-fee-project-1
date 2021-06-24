@@ -2,17 +2,25 @@ import {noteService} from '../services/note-service.js';
 
 class NoteController {
     constructor() {
+        Handlebars.registerHelper('formatDate', (date) => {
+            if (date instanceof Date) {
+                return date.toLocaleString('de-CH').split(',')[0];
+            }
+            return date;
+        });
         this.modeSelector = document.querySelector('#mode');
         this.createBtn = document.querySelector('#create');
         this.popup = document.querySelector('#popup');
         this.closePopupBtn = document.querySelector('#close-popup');
         this.filterButtons = document.querySelectorAll('.filter-button');
+        this.showFinishedBtn = document.querySelector('#show-finished');
         this.notesContainer = document.querySelector('#notes-container');
         this.noteForm = document.querySelector('#note-form');
         this.noteTemplate = document.querySelector('#note-template');
         this.noteRenderer = Handlebars.compile(this.noteTemplate.innerHTML);
         this.currentSortField = undefined;
         this.currentSortOrder = undefined;
+        this.showFinished = false;
     }
 
     toggleMode() {
@@ -49,6 +57,7 @@ class NoteController {
         this.filterButtons.forEach((e) => {
             e.addEventListener('click', (event) => this.sortNotes(event));
         });
+        this.showFinishedBtn.addEventListener('click', () => this.toggleShowFinished());
     }
 
     async submitNote(event) {
@@ -109,6 +118,18 @@ class NoteController {
             button.classList.remove('arrow-asc', 'arrow-desc');
         });
         e.target.classList.add(`arrow-${this.currentSortOrder}`);
+    }
+
+    toggleShowFinished() {
+        if (!this.showFinished) {
+            this.showFinished = true;
+            this.showFinishedBtn.classList.add('is-active');
+        } else {
+            this.showFinished = false;
+            this.showFinishedBtn.classList.remove('is-active');
+        }
+
+        this.renderNotes();
     }
 
     init() {

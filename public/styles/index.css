@@ -95,7 +95,7 @@ body.has-popup {
 .filter-button {
     position: relative;
 }
-.filter-button:after {
+.filter-button:after, #show-finished:after {
     position: relative;
     left: 1rem;
     content: '';
@@ -105,6 +105,9 @@ body.has-popup {
 }
 .filter-button.arrow-desc:after {
     content: '\25BC';
+}
+#show-finished.is-active:after {
+    content: '\002714';
 }
 
 ul.tasks {
