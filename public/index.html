@@ -92,13 +92,15 @@
 </div>
 
 <script id="note-template" type="text/x-handlebars-template">
-    <ul class="tasks">
+    <ul class="notes">
         {{#if this }}
             {{#each this}}
-                <li class="task todo" data-note="{{ id }}">
+                <li class="note" data-note="{{ id }}">
                     <h2>{{ title }}</h2>
                     <p>{{ description }}</p>
-                    <p>Importance: {{ importance }} | Due: {{ duedate }} | Created: {{ created }} | <a href="#" class="edit-note">Edit</a> | <a href="#" class="delete-note">Delete</a></p>
+                    <p>{{{ showImportance importance }}}</p>
+                    <p class="note-meta">Created: {{formatDate created}} ▪ Due: {{ formatDate duedate }}</p>
+                    <p class="note-controls"><a href="#" class="done-note">Mark as done</a> | <a href="#" class="edit-note">Edit</a> | <a href="#" class="delete-note">Delete</a></p>
                 </li>
             {{/each}}
         {{else }}

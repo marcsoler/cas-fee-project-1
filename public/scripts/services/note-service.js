@@ -7,14 +7,7 @@ class NoteService {
     }
 
     createNote(data) {
-        const note = new Note(
-            undefined,
-            data.title.value,
-            data.description.value,
-            data.importance.value,
-            data.duedate.value,
-            false,
-        );
+        const note = new Note(undefined, data.title.value, data.description.value, data.importance.value, data.duedate.value);
         note.save().then((v) => {
             note.setId(v._id);
         });
@@ -43,13 +36,22 @@ class NoteService {
         this.notes = [];
         const notes = await HttpService.ajax('GET', '/notes', undefined);
         notes.forEach((note) => {
-           this.notes.push(new Note(note._id, note.title, note.description, note.importance, note.duedate, note.finished));
+            // eslint-disable-next-line no-underscore-dangle
+            this.notes.push(new Note(note._id, note.title, note.description, note.importance, note.duedate, note.created, note.finished));
         });
         return this.notes;
     }
 
     async deleteNote(id) {
         return await HttpService.ajax('DELETE', `/notes/${id}`, undefined);
+    }
+
+    async setAsDone(id) {
+        const note = await this.getNote(id);
+        console.log(note);
+        note.finished = true;
+        note.save();
+        return note;
     }
 }
 

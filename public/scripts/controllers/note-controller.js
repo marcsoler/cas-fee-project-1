@@ -2,12 +2,6 @@ import {noteService} from '../services/note-service.js';
 
 class NoteController {
     constructor() {
-        Handlebars.registerHelper('formatDate', (date) => {
-            if (date instanceof Date) {
-                return date.toLocaleString('de-CH').split(',')[0];
-            }
-            return date;
-        });
         this.modeSelector = document.querySelector('#mode');
         this.createBtn = document.querySelector('#create');
         this.popup = document.querySelector('#popup');
@@ -63,22 +57,31 @@ class NoteController {
     async submitNote(event) {
         event.preventDefault();
         const formData = this.noteForm.elements;
-        let note;
         if (formData.noteId.value.length > 0) {
             const noteId = formData.noteId.value;
-            note = await noteService.updateNote(noteId, formData);
+            await noteService.updateNote(noteId, formData);
         } else {
-            note = await noteService.createNote(formData);
+            await noteService.createNote(formData);
         }
         this.closePopup();
+        await this.reloadNotes();
         await this.renderNotes();
     }
 
     async renderNotes() {
         this.notes = this.notes || await noteService.getNotes();
-        this.notesContainer.innerHTML = this.noteRenderer(this.notes.filter((n) => (!this.showFinished)));
+        this.notes = this.notes.filter((n) => (n.finished === this.showFinished));
+        this.notesContainer.innerHTML = this.noteRenderer(this.notes);
+        document.querySelectorAll('.done-note').forEach((note) => note.addEventListener('click', (e) => this.markAsDone(e)));
         document.querySelectorAll('.edit-note').forEach((note) => note.addEventListener('click', (e) => this.editNote(e)));
         document.querySelectorAll('.delete-note').forEach((note) => note.addEventListener('click', (e) => this.deleteNote(e)));
+    }
+
+    async markAsDone(event) {
+        const noteId = event.target.closest('li').dataset.note;
+        await noteService.setAsDone(noteId);
+        await this.reloadNotes();
+        await this.renderNotes();
     }
 
     editNote(event) {
@@ -93,11 +96,17 @@ class NoteController {
     }
 
     async deleteNote(event) {
+        event.preventDefault();
         if (confirm('Are you sure?')) {
             const noteId = event.target.closest('li').dataset.note;
             await noteService.deleteNote(noteId);
+            await this.reloadNotes();
             await this.renderNotes();
         }
+    }
+
+    async reloadNotes() {
+        this.notes = await noteService.getNotes();
     }
 
     sortNotes(e) {
@@ -131,8 +140,27 @@ class NoteController {
         this.renderNotes();
     }
 
+    registerHandlebarHelpers() {
+        Handlebars.registerHelper('showImportance', (importance) => {
+            let html = `<span class="stars stars-${importance}">`;
+            while (importance > 0) {
+                html += '<span class="star">&#9733;</span>';
+                --importance;
+            }
+            html += '</span>';
+            return html;
+        });
+        Handlebars.registerHelper('formatDate', (date) => {
+            if (date instanceof Date) {
+                return date.toLocaleString('de-CH').split(',')[0];
+            }
+            return new Date(date).toLocaleString('de-CH').split(',')[0];
+        });
+    }
+
     init() {
         this.toggleMode();
+        this.registerHandlebarHelpers();
         this.registerEvents();
         this.renderNotes();
     }

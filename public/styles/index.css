@@ -88,7 +88,8 @@ body.has-popup {
     flex: 1 1 0;
 }
 
-.custom-input:hover, .custom-input:active {
+.custom-input:hover,
+.custom-input:active {
     box-shadow: 1px 1px 10px #777;
 }
 
@@ -100,17 +101,20 @@ body.has-popup {
     left: 1rem;
     content: '';
 }
+
 .filter-button.arrow-asc:after {
     content: '\25B2';
 }
+
 .filter-button.arrow-desc:after {
     content: '\25BC';
 }
-#show-finished.is-active:after {
+
+#show-finished.is-active::after {
     content: '\002714';
 }
 
-ul.tasks {
+ul.notes {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: .5em;
@@ -119,7 +123,7 @@ ul.tasks {
     list-style: none;
 }
 
-ul.tasks > li.task {
+ul.notes > li.note {
     display: flex;
     gap: 5px;
     flex-direction: column;
@@ -129,8 +133,31 @@ ul.tasks > li.task {
     box-shadow: var(--task-shadow);
     padding: 5px;
 }
-ul.tasks > li.task h2 { margin: .5em 0 .25em; }
-ul.tasks > li.task p { margin: .5em 0 .25em; }
+ul.notes > li.note h2 { margin: 0.5em 0 0.25em; }
+ul.notes > li.note p { margin: 0.5em 0 0.25em; }
+
+ul.notes > li.note p.note-meta,
+ul.notes > li.note p.note-controls {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.stars {
+    font-size: 1.5em;
+    filter: drop-shadow(1px 1px 1px #333);
+    display: flex;
+    justify-content: space-evenly;
+}
+.stars > .star:nth-child(1) { color: #ffd500; }
+.stars > .star:nth-child(2) { color: #ff9500; }
+.stars > .star:nth-child(3) { color: #ff5500; }
+.stars > .star:nth-child(4) { color: #ff2a00; }
+.stars > .star:nth-child(5) {
+    color: #ff1500;
+    font-size: 1.15em;
+    animation: shake 0.5s;
+    animation-iteration-count: infinite;
+}
 
 /* Popup */
 .popup {
@@ -165,12 +192,16 @@ ul.tasks > li.task p { margin: .5em 0 .25em; }
 }
 
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -1px) rotate(-3deg); }
+    20% { transform: translate(-1px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 1px) rotate(6deg); }
+    40% { transform: translate(1px, -1px) rotate(4deg); }
+    50% { transform: translate(-1px, 1px) rotate(-6deg); }
+    60% { transform: translate(-1px, 1px) rotate(0deg); }
+    70% { transform: translate(1px, 1px) rotate(-3deg); }
+    80% { transform: translate(-1px, -1px) rotate(4deg); }
+    90% { transform: translate(1px, 0px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-2deg); }
 }

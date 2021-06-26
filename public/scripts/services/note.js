@@ -22,12 +22,12 @@ export default class Note {
             importance: this.importance,
             duedate: this.duedate,
             created: this.created,
-            finished: false,
+            finished: this.finished,
         };
         if (this.id) {
             return await HttpService.ajax('PUT', `/notes/${this.id}`, data);
         }
         // No ID set yet... so guess we're creating:
-        return await HttpService.ajax('POST', '/', data);
+        return await HttpService.ajax('POST', '/notes', data);
     }
 }

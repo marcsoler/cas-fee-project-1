@@ -10,7 +10,7 @@ export class NoteStore {
     }
 
     async add(data) {
-        const note = new Note(undefined, data.title, data.description, data.importance, data.duedate, data.created, false);
+        const note = new Note(undefined, data.title, data.description, data.importance, data.duedate, data.created, data.finished);
         return await this.db.insert(note);
     }
 
@@ -23,13 +23,11 @@ export class NoteStore {
     }
 
     async delete(id) {
-        console.log(`Delete note #${id}`);
-        // return await this.db.update({_id: id}, {$set: {state: 'DELETED'}});
         return await this.db.remove({_id: id});
     }
 
     async update(id, data) {
-        return await this.db.update({_id: id}, { $set: { title: data.title, description: data.description, duedate: data.duedate, created: data.created, finished: false } });
+        return await this.db.update({_id: id}, { $set: { title: data.title, description: data.description, importance: data.importance, duedate: data.duedate, finished: data.finished } });
     }
 }
 
