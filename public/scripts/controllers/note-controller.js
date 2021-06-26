@@ -141,9 +141,11 @@ class NoteController {
             case 'importance':
                 this.notes = this.notes.sort((a, b) => ((a.importance > b.importance) ? 1 : ((b.importance > a.importance) ? -1 : 0)));
                 break;
-            case 'created':
+            case 'finish':
                 this.notes = this.notes.sort((a, b) => new Date(b.duedate) - new Date(a.duedate));
                 break;
+            case 'created':
+                this.notes = this.notes.sort((a, b) => new Date(b.created) - new Date(a.created));
             default:
                 console.log('todo!');
                 break;
