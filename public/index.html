@@ -21,7 +21,7 @@
 <div class="container">
     <header class="header">
         <div class="header-left">
-            <button type="button" class="custom-input" id="create">Create a new Note</button>
+            <button type="button" class="custom-input blue" id="create">Create a new Note</button>
             <div class="sorting-options">
                 <button type="button" class="custom-input filter-button" data-sort-by="finish">By finish Date</button>
                 <button type="button" class="custom-input filter-button" data-sort-by="created">By created Date</button>
@@ -50,8 +50,10 @@
 
 <div class="popup" id="popup">
     <div class="popup-content">
-        <button id="close-popup">X</button>
-        <form action="#" method="post" id="note-form">
+        <div class="popup-control">
+            <button id="close-popup" class="custom-input red">X</button>
+        </div>
+        <form action="#" method="post" id="note-form" class="note-form">
 
             <input type="hidden" name="noteId" id="noteId">
 
@@ -81,9 +83,13 @@
                 <input id="duedate" type="date" name="duedate" required>
             </div>
 
+            <div class="button-group">
+                <button type="submit" class="custom-input blue">Save</button>
+                <button type="reset" class="custom-input red">Reset</button>
+            </div>
 
-            <button type="submit">Save</button>
-            <button type="reset">Reset</button>
+
+
 
         </form>
 
@@ -95,7 +101,7 @@
     <ul class="notes">
         {{#if this }}
             {{#each this}}
-                <li class="note" data-note="{{ id }}">
+                <li class="note {{#if finished}}finished{{/if}}" data-note="{{ id }}">
                     <p class="note-importance">{{{ showImportance importance }}}</p>
                     <h2 class="note-title">{{ title }}</h2>
                     <p class="note-description">{{ br description }}</p>

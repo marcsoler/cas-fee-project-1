@@ -16,9 +16,8 @@ body.light {
     --border-color-light: #ccc;
     --font: 'Roboto', sans-serif;
     --container-max-width: 1200px;
-    --task-bg-color: #e6eaef;
-    --task-border: 1px solid #ccc;
-    --task-shadow: 2px 2px #eee;
+    --note-bg-color: #e6eaef;
+    --note-border: 1px solid #ccc;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,9 +27,9 @@ body.light {
         --text-color: #fefefe;
         --border-color: #ddd;
         --border-color-light: #333;
-        --task-bg-color: #4c5f77;
-        --task-border: 1px solid #ccc;
-        --task-shadow: 2px 2px #eee;
+        --button-bg-color-default: #303134;
+        --note-bg-color: #303134;
+        --note-border: 1px solid #ccc;
     }
 }
 
@@ -38,9 +37,9 @@ body.dark {
     --body-bg: #1f1f1f;
     --text-color: #fefefe;
     --border-color: #ddd;
-    --task-bg-color: #2d3947;
-    --task-border: 1px solid #ccc;
-    --task-shadow: 2px 2px #eee;
+    --button-bg-color-default: #303134;
+    --note-bg-color: #303134;
+    --note-border: 1px solid #ccc;
 }
 
 body {
@@ -75,7 +74,7 @@ body.has-popup {
 /* Buttons */
 .custom-input {
     color: var(--text-color);
-    background-color: var(--body-bg);
+    background-color: var(--button-bg-color-default);
     padding: 0.5em 0.75em;
     border: 2px solid var(--border-color);
     border-radius: var(--default-radius);
@@ -90,14 +89,17 @@ body.has-popup {
 
 .custom-input.green {
     background-color: var(--button-bg-color-green);
+    border-color: var(--button-bg-color-green);
 }
 
 .custom-input.blue {
     background-color: var(--button-bg-color-blue);
+    border-color: var(--button-bg-color-blue);
 }
 
 .custom-input.red {
     background-color: var(--button-bg-color-red);
+    border-color: var(--button-bg-color-red);
 }
 
 .custom-input.green,
@@ -110,6 +112,7 @@ body.has-popup {
 .sorting-options {
     display: flex;
     flex-direction: row;
+    grid-template: auto / auto;
 }
 
 .sorting-options .custom-input {
@@ -119,6 +122,11 @@ body.has-popup {
 .custom-input:hover,
 .custom-input:active {
     box-shadow: 1px 1px 10px #777;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .filter-button {
@@ -157,22 +165,14 @@ ul.notes > li.note {
     display: flex;
     gap: 5px;
     flex-direction: column;
-    background-color: var(--task-bg-color);
+    background-color: var(--note-bg-color);
     border-radius: var(--default-radius);
-    border: var(--task-border);
-    box-shadow: var(--task-shadow);
+    border: var(--note-border);
     padding: 5px;
-    transition-duration: transform;
-    transition-duration: 0.05s;
 }
 
 ul.notes > li.note {
     cursor: pointer;
-}
-
-ul.notes > li.note:hover {
-    transform: scale(1.25);
-    transition-duration: 0.25s;
 }
 
 ul.notes > li.note h2.note-title { margin: 0; }
@@ -184,7 +184,6 @@ ul.notes > li.note p.note-controls {
     display: flex;
     justify-content: space-evenly;
     font-size: 0.85em;
-    border-top: 1px solid var(--border-color-light);
 }
 
 /* Interaction */
@@ -193,6 +192,10 @@ ul.notes > li.note p.note-controls, ul.notes > li.note p.note-description {
 }
 ul.notes > li.note.show-details p.note-controls, ul.notes > li.note.show-details p.note-description {
     display: flex;
+}
+ul.notes > li.note.finished .done-note,
+ul.notes > li.note.finished .edit-note {
+    display: none;
 }
 
 
@@ -235,15 +238,51 @@ ul.notes > li.note.show-details p.note-controls, ul.notes > li.note.show-details
     align-self: center;
     justify-self: center;
     width: 100%;
-    max-width: calc(var(--container-max-width) - 100px);
-    padding: 1rem;
+    max-width: 600px;
+    padding: 0.5rem;
     animation-name: fadeIn;
     animation-duration: 0.5s;
 }
 
-.input-group {
+.popup .note-form {
+    display: grid;
+}
+
+.popup .popup-control {
     display: flex;
+    justify-content: flex-end;
+}
+.popup .popup-control #close-popup {
+    margin: 0 0 0.5rem 0;
+}
+
+.popup .note-form label {
+    font-weight: 500;
+}
+
+.popup textarea {
+    resize: vertical;
+    height: 3em;
+}
+
+.input-group {
+    display: grid;
     flex-direction: column;
+    grid-template: auto / 1fr 5fr;
+    margin-bottom: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .input-group {
+        grid-template: auto / auto;
+    }
+    .sorting-options {
+        flex-direction: column;
+    }
+
+    .note-controls {
+        flex-direction: column;
+    }
 }
 
 @keyframes shake {
