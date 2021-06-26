@@ -19,8 +19,8 @@ class NoteService {
 
         note.title = data.title.value;
         note.description = data.description.value;
-        note.importance = data.importance.value;
-        note.duedate = data.duedate.value;
+        note.importance = data.importance.value || 1;
+        note.duedate = data.duedate.value || new Date('2021-01-01');
         // note.finished = false; // Todo
 
         await note.save();

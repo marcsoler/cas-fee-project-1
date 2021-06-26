@@ -96,12 +96,16 @@
         {{#if this }}
             {{#each this}}
                 <li class="note" data-note="{{ id }}">
-
+                    <p class="note-importance">{{{ showImportance importance }}}</p>
                     <h2 class="note-title">{{ title }}</h2>
                     <p class="note-description">{{ br description }}</p>
-                    <p class="note-importance">{{{ showImportance importance }}}</p>
+
                     <p class="note-meta">Created: {{formatDate created}} ▪ Due: {{ formatDate duedate }}</p>
-                    <p class="note-controls"><button class="custom-input done-note green">Mark as done</button> | <button class="custom-input edit-note blue">Edit</button> | <button class="custom-input delete-note red">Delete</button></p>
+                    <p class="note-controls">
+                        <button class="custom-input done-note blue">Mark as done</button>
+                        <button class="custom-input edit-note blue">Edit</button>
+                        <button class="custom-input delete-note red">Delete</button>
+                    </p>
                 </li>
             {{/each}}
         {{else }}

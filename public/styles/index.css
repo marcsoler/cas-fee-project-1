@@ -166,6 +166,10 @@ ul.notes > li.note {
     transition-duration: 0.05s;
 }
 
+ul.notes > li.note {
+    cursor: pointer;
+}
+
 ul.notes > li.note:hover {
     transform: scale(1.25);
     transition-duration: 0.25s;
@@ -183,12 +187,20 @@ ul.notes > li.note p.note-controls {
     border-top: 1px solid var(--border-color-light);
 }
 
+/* Interaction */
+ul.notes > li.note p.note-controls, ul.notes > li.note p.note-description {
+    display: none;
+}
+ul.notes > li.note.show-details p.note-controls, ul.notes > li.note.show-details p.note-description {
+    display: flex;
+}
+
+
 .stars {
-    font-size: 1.5em;
+    font-size: 1.25em;
     line-height: 1;
     filter: drop-shadow(1px 1px 1px #333);
     display: flex;
-    justify-content: space-evenly;
 }
 .stars > .star:nth-child(1) { color: #ffd500; }
 .stars > .star:nth-child(2) { color: #ff9500; }

@@ -72,12 +72,19 @@ class NoteController {
         if (!this.notes) {
             await this.loadNotes();
         }
-        // this.notes = this.notes.filter((n) => (n.finished === this.showFinished));
-        console.log(this.notes);
+
+        if (this.showFinished) {
+            this.notes = this.notes.filter((note) => note.finished);
+        } else {
+            this.notes = this.notes.filter((note) => !note.finished);
+        }
+
         this.notesContainer.innerHTML = this.noteRenderer(this.notes);
         document.querySelectorAll('.done-note').forEach((note) => note.addEventListener('click', (e) => this.markAsDone(e)));
         document.querySelectorAll('.edit-note').forEach((note) => note.addEventListener('click', (e) => this.editNote(e)));
         document.querySelectorAll('.delete-note').forEach((note) => note.addEventListener('click', (e) => this.deleteNote(e)));
+        document.querySelectorAll('.show-note-controls').forEach((note) => note.addEventListener('click', (e) => this.showControls(e)));
+        document.querySelectorAll('.notes > .note').forEach((note) => note.addEventListener('click', (e) => this.openDetails(e)));
     }
 
     async markAsDone(event) {
@@ -91,7 +98,6 @@ class NoteController {
         const noteId = event.target.closest('li').dataset.note;
         const note = this.notes.find((n) => (noteId === n.id));
 
-        console.log(new Date(note.duedate).toISOString().substring(0, 10));
         this.popup.querySelector('#noteId').value = note.id;
         this.popup.querySelector('#title').value = note.title;
         this.popup.querySelector('#description').value = note.description;
@@ -128,12 +134,27 @@ class NoteController {
             button.classList.remove('arrow-asc', 'arrow-desc');
         });
         e.target.classList.add(`arrow-${this.currentSortOrder}`);
-        this.notes.sort((a, b) => ((a.importance.toLowerCase() > b.importance.toLowerCase()) ? 1 : ((b.importance.toLowerCase() > a.importance.toLowerCase()) ? -1 : 0)));
+
+        console.log('sortby by', this.currentSortField, this.currentSortOrder);
+
+        switch (this.currentSortField) {
+            case 'importance':
+                this.notes = this.notes.sort((a, b) => ((a.importance > b.importance) ? 1 : ((b.importance > a.importance) ? -1 : 0)));
+                break;
+            case 'created':
+                this.notes = this.notes.sort((a, b) => new Date(b.duedate) - new Date(a.duedate));
+                break;
+            default:
+                console.log('todo!');
+                break;
+        }
+
         this.notes = this.currentSortOrder === 'asc' ? this.notes : this.notes.reverse();
         this.renderNotes();
     }
 
-    toggleShowFinished() {
+    async toggleShowFinished() {
+        await this.loadNotes();
         if (!this.showFinished) {
             this.showFinished = true;
             this.showFinishedBtn.classList.add('is-active');
@@ -142,7 +163,7 @@ class NoteController {
             this.showFinishedBtn.classList.remove('is-active');
         }
 
-        this.renderNotes();
+        await this.renderNotes();
     }
 
     registerHandlebarHelpers() {
@@ -166,6 +187,11 @@ class NoteController {
             content = content.replace(/(\r\n|\n|\r)/gm, '<br>');
             return new Handlebars.SafeString(content);
         });
+    }
+
+    openDetails(e) {
+        document.querySelectorAll('li.note').forEach((note) => note.classList.remove('show-details'));
+        e.target.closest('li').classList.add('show-details');
     }
 
     init() {
