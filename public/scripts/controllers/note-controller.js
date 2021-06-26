@@ -64,13 +64,16 @@ class NoteController {
             await noteService.createNote(formData);
         }
         this.closePopup();
-        await this.reloadNotes();
+        await this.loadNotes();
         await this.renderNotes();
     }
 
     async renderNotes() {
-        this.notes = this.notes || await noteService.getNotes();
-        this.notes = this.notes.filter((n) => (n.finished === this.showFinished));
+        if (!this.notes) {
+            await this.loadNotes();
+        }
+        // this.notes = this.notes.filter((n) => (n.finished === this.showFinished));
+        console.log(this.notes);
         this.notesContainer.innerHTML = this.noteRenderer(this.notes);
         document.querySelectorAll('.done-note').forEach((note) => note.addEventListener('click', (e) => this.markAsDone(e)));
         document.querySelectorAll('.edit-note').forEach((note) => note.addEventListener('click', (e) => this.editNote(e)));
@@ -80,18 +83,20 @@ class NoteController {
     async markAsDone(event) {
         const noteId = event.target.closest('li').dataset.note;
         await noteService.setAsDone(noteId);
-        await this.reloadNotes();
+        await this.loadNotes();
         await this.renderNotes();
     }
 
     editNote(event) {
         const noteId = event.target.closest('li').dataset.note;
         const note = this.notes.find((n) => (noteId === n.id));
+
+        console.log(new Date(note.duedate).toISOString().substring(0, 10));
         this.popup.querySelector('#noteId').value = note.id;
         this.popup.querySelector('#title').value = note.title;
         this.popup.querySelector('#description').value = note.description;
         this.popup.querySelector('#importance').value = note.importance;
-        this.popup.querySelector('#duedate').value = note.duedate;
+        this.popup.querySelector('#duedate').value = new Date(note.duedate).toISOString().substring(0, 10);
         this.openPopup();
     }
 
@@ -100,12 +105,12 @@ class NoteController {
         if (confirm('Are you sure?')) {
             const noteId = event.target.closest('li').dataset.note;
             await noteService.deleteNote(noteId);
-            await this.reloadNotes();
+            await this.loadNotes();
             await this.renderNotes();
         }
     }
 
-    async reloadNotes() {
+    async loadNotes() {
         this.notes = await noteService.getNotes();
     }
 
@@ -144,7 +149,7 @@ class NoteController {
         Handlebars.registerHelper('showImportance', (importance) => {
             let html = `<span class="stars stars-${importance}">`;
             while (importance > 0) {
-                html += '<span class="star">&#9733;</span>';
+                html += '<span class="star">&#128498;</span>';
                 --importance;
             }
             html += '</span>';
@@ -155,6 +160,11 @@ class NoteController {
                 return date.toLocaleString('de-CH').split(',')[0];
             }
             return new Date(date).toLocaleString('de-CH').split(',')[0];
+        });
+        Handlebars.registerHelper('br', (content) => {
+            content = Handlebars.Utils.escapeExpression(content);
+            content = content.replace(/(\r\n|\n|\r)/gm, '<br>');
+            return new Handlebars.SafeString(content);
         });
     }
 

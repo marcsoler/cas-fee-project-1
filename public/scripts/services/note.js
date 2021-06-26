@@ -6,7 +6,7 @@ export default class Note {
         this.title = title;
         this.description = description;
         this.importance = importance;
-        this.duedate = duedate;
+        this.duedate = new Date(duedate);
         this.created = created;
         this.finished = finished;
     }
