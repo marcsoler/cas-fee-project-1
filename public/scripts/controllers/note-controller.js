@@ -75,19 +75,15 @@ class NoteController {
     }
 
     async renderNotes() {
-        this.notes = await noteService.getNotes();
-        if (this.currentSortField && this.currentSortOrder) {
-            // Todo
-            console.log('to sort', this.currentSortField, this.currentSortOrder);
-        }
-        this.notesContainer.innerHTML = this.noteRenderer(this.notes);
+        this.notes = this.notes || await noteService.getNotes();
+        this.notesContainer.innerHTML = this.noteRenderer(this.notes.filter((n) => (!this.showFinished)));
         document.querySelectorAll('.edit-note').forEach((note) => note.addEventListener('click', (e) => this.editNote(e)));
         document.querySelectorAll('.delete-note').forEach((note) => note.addEventListener('click', (e) => this.deleteNote(e)));
     }
 
-    async editNote(event) {
+    editNote(event) {
         const noteId = event.target.closest('li').dataset.note;
-        const note = await noteService.getNote(noteId);
+        const note = this.notes.find((n) => (noteId === n.id));
         this.popup.querySelector('#noteId').value = note.id;
         this.popup.querySelector('#title').value = note.title;
         this.popup.querySelector('#description').value = note.description;
@@ -118,6 +114,9 @@ class NoteController {
             button.classList.remove('arrow-asc', 'arrow-desc');
         });
         e.target.classList.add(`arrow-${this.currentSortOrder}`);
+        this.notes.sort((a, b) => ((a.importance.toLowerCase() > b.importance.toLowerCase()) ? 1 : ((b.importance.toLowerCase() > a.importance.toLowerCase()) ? -1 : 0)));
+        this.notes = this.currentSortOrder === 'asc' ? this.notes : this.notes.reverse();
+        this.renderNotes();
     }
 
     toggleShowFinished() {
