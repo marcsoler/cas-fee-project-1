@@ -54,6 +54,23 @@ class NoteService {
         note.save();
         return note;
     }
+
+    sortNotes(field) {
+        switch (field) {
+            case 'importance':
+                this.notes.sort((a, b) => (a.importance > b.importance ? 1 : (b.importance > a.importance ? -1 : 0)));
+                break;
+            case 'finish':
+                this.notes.sort((a, b) => new Date(b.duedate) - new Date(a.duedate));
+                break;
+            case 'created':
+                this.notes.sort((a, b) => new Date(b.created) - new Date(a.created));
+                break;
+            default:
+                break;
+        }
+        return this.notes;
+    }
 }
 
 // eslint-disable-next-line import/prefer-default-export

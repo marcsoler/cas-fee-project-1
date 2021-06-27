@@ -26,7 +26,6 @@ body.light {
         --body-bg: #1f1f1f;
         --text-color: #fefefe;
         --border-color: #ddd;
-        --border-color-light: #333;
         --button-bg-color-default: #303134;
         --note-bg-color: #303134;
         --note-border: 1px solid #ccc;
@@ -237,11 +236,13 @@ ul.notes > li.note.finished .edit-note {
 }
 
 .popup-content {
-    background-color: var(--body-bg);
     align-self: center;
     justify-self: center;
     width: 100%;
     max-width: 600px;
+    background-color: var(--note-bg-color);
+    border-radius: var(--default-radius);
+    border: var(--note-border);
     padding: 0.5rem;
     animation-name: fadeIn;
     animation-duration: 0.5s;

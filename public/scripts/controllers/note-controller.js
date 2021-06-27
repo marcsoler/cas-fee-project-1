@@ -135,19 +135,7 @@ class NoteController {
         });
         e.target.classList.add(`arrow-${this.currentSortOrder}`);
 
-        switch (this.currentSortField) {
-            case 'importance':
-                this.notes = this.notes.sort((a, b) => (a.importance > b.importance ? 1 : (b.importance > a.importance ? -1 : 0)));
-                break;
-            case 'finish':
-                this.notes = this.notes.sort((a, b) => new Date(b.duedate) - new Date(a.duedate));
-                break;
-            case 'created':
-                this.notes = this.notes.sort((a, b) => new Date(b.created) - new Date(a.created));
-                break;
-            default:
-                break;
-        }
+        this.notes = noteService.sortNotes(this.currentSortField);
 
         this.notes = this.currentSortOrder === 'asc' ? this.notes : this.notes.reverse();
         this.renderNotes();
