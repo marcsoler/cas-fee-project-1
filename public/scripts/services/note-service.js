@@ -9,6 +9,7 @@ class NoteService {
     createNote(data) {
         const note = new Note(undefined, data.title.value, data.description.value, data.importance.value, data.duedate.value);
         note.save().then((v) => {
+            // eslint-disable-next-line no-underscore-dangle
             note.setId(v._id);
         });
         return note;
@@ -29,6 +30,7 @@ class NoteService {
 
     async getNote(id) {
         const note = await HttpService.ajax('GET', `/notes/${id}`, undefined);
+        // eslint-disable-next-line no-underscore-dangle
         return new Note(note._id, note.title, note.description, note.importance, note.duedate, note.finished);
     }
 
@@ -43,16 +45,16 @@ class NoteService {
     }
 
     async deleteNote(id) {
-        return await HttpService.ajax('DELETE', `/notes/${id}`, undefined);
+        return HttpService.ajax('DELETE', `/notes/${id}`, undefined);
     }
 
     async setAsDone(id) {
         const note = await this.getNote(id);
-        console.log(note);
         note.finished = true;
         note.save();
         return note;
     }
 }
 
+// eslint-disable-next-line import/prefer-default-export
 export const noteService = new NoteService();

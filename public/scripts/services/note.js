@@ -25,9 +25,9 @@ export default class Note {
             finished: this.finished,
         };
         if (this.id) {
-            return await HttpService.ajax('PUT', `/notes/${this.id}`, data);
+            return HttpService.ajax('PUT', `/notes/${this.id}`, data);
         }
         // No ID set yet... so guess we're creating:
-        return await HttpService.ajax('POST', '/notes', data);
+        return HttpService.ajax('POST', '/notes', data);
     }
 }

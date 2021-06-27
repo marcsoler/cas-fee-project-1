@@ -108,7 +108,7 @@ class NoteController {
 
     async deleteNote(event) {
         event.preventDefault();
-        if (confirm('Are you sure?')) {
+        if (window.confirm('Are you sure?')) {
             const noteId = event.target.closest('li').dataset.note;
             await noteService.deleteNote(noteId);
             await this.loadNotes();
@@ -135,19 +135,17 @@ class NoteController {
         });
         e.target.classList.add(`arrow-${this.currentSortOrder}`);
 
-        console.log('sortby by', this.currentSortField, this.currentSortOrder);
-
         switch (this.currentSortField) {
             case 'importance':
-                this.notes = this.notes.sort((a, b) => ((a.importance > b.importance) ? 1 : ((b.importance > a.importance) ? -1 : 0)));
+                this.notes = this.notes.sort((a, b) => (a.importance > b.importance ? 1 : (b.importance > a.importance ? -1 : 0)));
                 break;
             case 'finish':
                 this.notes = this.notes.sort((a, b) => new Date(b.duedate) - new Date(a.duedate));
                 break;
             case 'created':
                 this.notes = this.notes.sort((a, b) => new Date(b.created) - new Date(a.created));
+                break;
             default:
-                console.log('todo!');
                 break;
         }
 
@@ -170,10 +168,11 @@ class NoteController {
 
     registerHandlebarHelpers() {
         Handlebars.registerHelper('showImportance', (importance) => {
-            let html = `<span class="stars stars-${importance}">`;
-            while (importance > 0) {
+            let i = importance;
+            let html = `<span class="stars stars-${i}">`;
+            while (i > 0) {
                 html += '<span class="star">&#128498;</span>';
-                --importance;
+                --i;
             }
             html += '</span>';
             return html;
@@ -185,9 +184,10 @@ class NoteController {
             return new Date(date).toLocaleString('de-CH').split(',')[0];
         });
         Handlebars.registerHelper('br', (content) => {
-            content = Handlebars.Utils.escapeExpression(content);
-            content = content.replace(/(\r\n|\n|\r)/gm, '<br>');
-            return new Handlebars.SafeString(content);
+            let c = content;
+            c = Handlebars.Utils.escapeExpression(c);
+            c = c.replace(/(\r\n|\n|\r)/gm, '<br>');
+            return new Handlebars.SafeString(c);
         });
     }
 
