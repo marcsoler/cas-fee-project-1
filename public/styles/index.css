@@ -171,7 +171,7 @@ ul.notes > li.note {
     padding: 5px;
 }
 
-ul.notes > li.note {
+ul.notes > li.note:hover {
     cursor: pointer;
 }
 
@@ -187,17 +187,20 @@ ul.notes > li.note p.note-controls {
 }
 
 /* Interaction */
-ul.notes > li.note p.note-controls, ul.notes > li.note p.note-description {
+ul.notes > li.note p.note-controls,
+ul.notes > li.note p.note-description {
     display: none;
 }
-ul.notes > li.note.show-details p.note-controls, ul.notes > li.note.show-details p.note-description {
+
+ul.notes > li.note.show-details p.note-controls,
+ul.notes > li.note.show-details p.note-description {
     display: flex;
 }
+
 ul.notes > li.note.finished .done-note,
 ul.notes > li.note.finished .edit-note {
     display: none;
 }
-
 
 .stars {
     font-size: 1.25em;
@@ -252,6 +255,7 @@ ul.notes > li.note.finished .edit-note {
     display: flex;
     justify-content: flex-end;
 }
+
 .popup .popup-control #close-popup {
     margin: 0 0 0.5rem 0;
 }
@@ -276,6 +280,7 @@ ul.notes > li.note.finished .edit-note {
     .input-group {
         grid-template: auto / auto;
     }
+
     .sorting-options {
         flex-direction: column;
     }
